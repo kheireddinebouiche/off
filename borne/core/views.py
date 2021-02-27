@@ -34,22 +34,43 @@ def home(request):
 
 @login_required
 def commande(request,slug):
-    menu = get_object_or_404(Menu, slug=slug) 
-    item = Item.objects.filter(user=request.user, menu = menu).exclude(type_item="sau").exclude(type_item="boi").exclude(type_item="sup").exclude(type_item="pat")
-    try:
-        order = Order.objects.get(user=request.user, ordered=False, etat='enc' )
-        context = {
-            'item' : item,
-            'order' : order,
-            'menu' : menu,
-        }
-        return render(request, 'Front/com.html', context)
-    except ObjectDoesNotExist:       
-        context = {
-            'item' : item,
-            'menu' : menu,            
-        }
-        return render(request, 'Front/com.html', context)
+    menu = get_object_or_404(Menu, slug=slug)
+
+    if (menu.designation == "BOISSONS"):
+
+        item = Item.objects.filter(user=request.user, menu = menu).exclude(type_item="sau").exclude(type_item="sup").exclude(type_item="pat")
+        try:
+            order = Order.objects.get(user=request.user, ordered=False, etat='enc' )
+            context = {
+                'item' : item,
+                'order' : order,
+                'menu' : menu,
+            }
+            return render(request, 'Front/com.html', context)
+        except ObjectDoesNotExist:       
+            context = {
+                'item' : item,
+                'menu' : menu,            
+            }
+            return render(request, 'Front/com.html', context)
+
+    else :
+
+        item = Item.objects.filter(user=request.user, menu = menu).exclude(type_item="sau").exclude(type_item="boi").exclude(type_item="sup").exclude(type_item="pat").exclude(type_item="gar")
+        try:
+            order = Order.objects.get(user=request.user, ordered=False, etat='enc' )
+            context = {
+                'item' : item,
+                'order' : order,
+                'menu' : menu,
+            }
+            return render(request, 'Front/com.html', context)
+        except ObjectDoesNotExist:       
+            context = {
+                'item' : item,
+                'menu' : menu,            
+            }
+            return render(request, 'Front/com.html', context)
 
 
 @login_required
@@ -65,12 +86,20 @@ def sauce(request):
 @login_required
 def garniture(request):
     garniture = Item.objects.filter(user=request.user, type_item='gar')
-    order_qs = Order.objects.get(user=request.user, ordered=False, etat='enc')
-    context = {
-        'garniture' : garniture,
-        'order_qs' : order_qs,
-    }
-    return render(request, 'Front/garniture.html', context)
+
+    try:
+        order_qs = Order.objects.get(user=request.user, ordered=False, etat='enc')
+        context = {
+            'garniture' : garniture,
+            'order_qs' : order_qs,
+        }
+        return render(request, 'Front/garniture.html', context)
+
+    except ObjectDoesNotExist:
+
+        return redirect('core:home')
+
+
 
 
 @login_required
@@ -109,6 +138,20 @@ def supplement(request):
     }
 
     return render(request, "Front/supplement.html" , context)
+
+@login_required
+def desserts(request):
+    desserts = Item.objects.filter(user=request.user, type_item="des")
+    order_qs = Order.objects.get(user=request.user, ordered=False)
+
+    context = {
+        'supplement' : supplement,
+        'order_qs' : order_qs,
+
+    }
+
+    return render(request, "Front/supplement.html" , context)
+
     
 @login_required
 def add_to_cart(request, slug):
@@ -118,11 +161,12 @@ def add_to_cart(request, slug):
         item=item,
         user=request.user,
         ordered=False,
-        prix_unitaire=item.prix,
-        ref_menu = menu.slug, 
+        prix_unitaire=item.prix, 
         etat ='enc',        
     )
     order_qs = Order.objects.filter(user=request.user, ordered=False, etat='enc')
+
+
     if order_qs.exists():
         order = order_qs[0]
 
@@ -142,18 +186,21 @@ def add_to_cart(request, slug):
                 else:
                     if (item.type_item=="pat"):
                         return redirect("core:pate")
-
                     else:
-                        return redirect("core:commande", slug = menu.slug)            
+                        if (item.type_item=="gar"):
+                            return redirect("core:garniture")
+
+                        else:
+                            return redirect("core:commande", slug = menu.slug)  
+
+
         else:
 
-            if (item.type_item=="sau"):
-        
+            if (item.type_item=="sau"):     
                 order.items.add(order_item)
                 return redirect("core:sauce")
             else:
                 if (item.type_item=="boi"):
-
                     order.items.add(order_item)
                     return redirect('core:boisson')
 
@@ -164,8 +211,14 @@ def add_to_cart(request, slug):
 
                     else:
 
-                        order.items.add(order_item)
-                        return redirect("core:commande", slug = menu.slug)
+                        if (item.type_item=="gar"):
+                            order.items.add(order_item)
+                            return redirect('core:garniture')
+
+                        else:
+
+                            order.items.add(order_item)
+                            return redirect("core:commande", slug = menu.slug)
             
     else:
 

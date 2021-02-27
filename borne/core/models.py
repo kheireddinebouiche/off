@@ -17,6 +17,7 @@ ITEM_TYPE = {
     ('pat', 'Pate'),
     ('gar', 'garniture'),
     ('san','Sandwich'),
+    ('des','Dessert'),
 }
 
 ETAT_COM = {
