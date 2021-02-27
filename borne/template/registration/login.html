@@ -1,0 +1,68 @@
+
+<html>
+  <body>
+    <br>
+<div class="container my-5 py-5 z-depth-1 " >
+
+ 
+    <!--Section: Content-->
+    <section class="px-md-5 mx-md-5 text-center text-lg-left dark-grey-text ">
+
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center" >
+
+        <!--Grid column-->
+        <div class="col-md-6">
+
+          <!-- Default form register -->
+          <form class="text-center" method="POST">
+              {% csrf_token %}
+
+            <p class="h4 mb-4">Connexion</p>
+
+            
+
+            <!-- E-mail -->
+            <input type="text" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="Votre nom d'utilisateur" name="username">
+
+            <!-- Password -->
+            <input type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Mot de passe"
+              aria-describedby="defaultRegisterFormPasswordHelpBlock" name="password">
+            
+
+        
+
+            <!-- Sign up button -->
+            <button class="btn btn-info my-4 btn-block" type="submit">Connexion</button>
+
+            <!-- Social register -->
+            <p>Vous n'avez pas encore de compte :</p>
+
+               <a href="#" class="btn btn-primary" >S'inscrire</a>
+            <hr>
+
+            <!-- Terms of service -->
+            <p>On S'enregistrant sur la plateforme
+             vous etes en accord avec nors termes de service
+              <a href="" target="_blank">terms of service</a>
+
+          </form>
+          <!-- Default form register -->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+
+    </section>
+    <!--Section: Content-->
+
+
+  </div>
+
+  </body>
+</html>
+

@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>
+        Step 2 de la commande 
+    </title>
+</head>
+
+
+    <body>
+
+            
+            {% for i in item %}
+        
+                <a href={{i.get_add_to_cart_url}} 
+                <li>{{i.designation}}</li> </br>
+
+            {% endfor %}
+
+            </a>
+
+            </ul>
+
+            
+            {% if order %}
+            
+            Ma commande :
+
+            <ul>
+                {% for obj in order.items.all %}
+
+                <li>{{obj.item.designation}} {{obj.quantity}}</li>
+    
+                {% endfor %}  
+
+
+            </ul>
+
+                {% if menu.sauce %}
+                 <a href="{% url 'core:sauce' %}">Choisir les sauces </a>
+                {% endif %}
+            {% else %}
+
+            aucun
+
+            {% endif %}
+
+        </br>
+ 
+
+            <a href="/">Retour a la selection de plat</a>
+
+        
+
+    </body>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    
+    </script>
+</html>
