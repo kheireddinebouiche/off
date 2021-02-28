@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from django.urls import path, include
-from .views import home, commande, add_to_cart,sauce, roll_back, com,side, remove_from_cart,remove_single_item_from_cart, supplement, boisson, pate, AnnulerCommande, VoirCommande, garniture, ConfirmerCommande
+from .views import home, commande, add_to_cart,sauce, roll_back, com,side, remove_from_cart,remove_single_item_from_cart, supplement, boisson, pate, AnnulerCommande, VoirCommande, garniture, ConfirmerCommande, sandwich, view_menu, formule
 from django.conf.urls.static import static
 
 
@@ -16,6 +16,9 @@ urlpatterns = [
     path('commande_step/<slug>',commande, name="commande" ),
 
     #url de selection des composants du menu
+    path('view_menu/<slug>/', view_menu, name="view_menu"),
+    path('sandwich/',sandwich, name="sandwich"),
+    path('formule/', formule, name="formule"),
     path('garniture/', garniture, name="garniture"),
     path('choix_d_une_sauce/',sauce,name="sauce"),
     path('supplement/', supplement, name="supplement"),

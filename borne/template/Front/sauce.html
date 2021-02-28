@@ -180,7 +180,13 @@
             {% endif %}
             <figure><img src="{{ i.item.image.url }}" class="img-responsive" alt=""></figure>
             <h6><a href="#">{{i.item.designation}} </a></h6>
-           <h3> <div class="minus"><a href="{{i.item.remove_single_item}}">-</a></div>    &nbsp&nbsp&nbsp  {{i.quantity}}</h3> 
+
+           <h3> 
+            {% if i.item.type_item == 'sau' %}
+             
+            <div class="minus"><a href="{{i.item.remove_single_item}}">-</a></div>  {% endif %}  &nbsp&nbsp&nbsp  {{i.quantity}}
+          
+            </h3> 
             
           </div>
         </li>    

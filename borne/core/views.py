@@ -33,6 +33,72 @@ def home(request):
 
 
 @login_required
+def view_menu(request, slug):
+
+    menu = get_object_or_404(Menu, slug=slug)
+
+    if (menu.designation == 'SANDWICH'):
+        return redirect('core:sandwich')
+
+    else:
+
+        if (menu.designation == 'FORMULE'):
+            return redirect('core:formule')
+   
+        else:
+
+            return redirect('core:home')
+
+@login_required
+def formule(request):
+
+    item = Item.objects.filter(user=request.user, is_formule=True)
+    
+    try:
+        order = Order.objects.get(user=request.user, ordered=False, etat='enc')
+        context = {
+            'item' : item,
+            'order' : order,
+        }
+        return render(request, 'Front/formule.html', context)
+
+    except ObjectDoesNotExist:
+
+   
+        context = {
+            'item' : item,
+        }
+        return render(request, 'Front/formule.html', context)
+
+
+
+
+@login_required
+def sandwich(request):
+
+    item = Item.objects.filter(user=request.user, type_item='san')
+
+    try:
+        order = Order.objects.get(user=request.user, ordered=False, etat='enc')
+        context = {
+            'item' : item,
+            'order' : order,
+        }
+        return render(request, 'Front/sandwich.html', context)
+
+    except ObjectDoesNotExist:
+
+   
+        context = {
+            'item' : item,
+        }
+        return render(request, 'Front/sandwich.html', context)
+
+    
+
+
+
+@login_required
 def commande(request,slug):
     menu = get_object_or_404(Menu, slug=slug)
 
@@ -149,14 +215,12 @@ def desserts(request):
         'order_qs' : order_qs,
 
     }
-
     return render(request, "Front/supplement.html" , context)
 
     
 @login_required
 def add_to_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
-    menu = Menu.objects.get(designation = item.menu)       
+    item = get_object_or_404(Item, slug=slug)       
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
@@ -191,7 +255,7 @@ def add_to_cart(request, slug):
                             return redirect("core:garniture")
 
                         else:
-                            return redirect("core:commande", slug = menu.slug)  
+                            return redirect("core:sandwich")  
 
 
         else:
@@ -218,14 +282,17 @@ def add_to_cart(request, slug):
                         else:
 
                             order.items.add(order_item)
-                            return redirect("core:commande", slug = menu.slug)
+                            return redirect("core:sandwich")
             
     else:
 
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user, ordered_date=ordered_date, etat='enc')
         order.items.add(order_item)
-        return redirect("core:commande", slug = menu.slug)
+        if (item.type_item == 'san'):
+            return redirect("core:sandwich")
+        else:
+            return redirect('core:home')
 
 
 
@@ -254,13 +321,16 @@ def remove_from_cart(request, slug):
                 if (item.type_item=='boi'):
                     return redirect("core:boisson") 
 
-                else:
-
-                    if(item.type_item=='pat'):
-                        return redirect('core:pate')
+                    if (item.type_item=='gar'):
+                        return redirect('core:garniture')
                 
                     else:
-                        return redirect("core:commande", slug=menu.slug)
+
+                        if(item.type_item=='pat'):
+                            return redirect('core:pate')
+                    
+                        else:
+                            return redirect("core:commande", slug=menu.slug)
         else:           
             return redirect("omniparc:products", slug=slug)
     else:       
@@ -275,7 +345,7 @@ def remove_single_item_from_cart(request, slug):
         ordered=False,
         etat='enc',
     )
-    menu = Menu.objects.get(designation = item.menu)
+    
     if order_qs.exists():
         order = order_qs[0]
         if order.items.filter(item__slug=item.slug).exists():
@@ -305,8 +375,12 @@ def remove_single_item_from_cart(request, slug):
                         return redirect('core:pate')
 
                     else:
-                        
-                        return redirect("core:commande", slug=menu.slug)
+                        if(item.type_item == 'gar'):
+                            return redirect('core:garniture')
+
+                        else:
+                            if (item.type_item == 'san'):
+                                return redirect('core:sandwich')
                      
         else:          
             return redirect("omniparc:products", slug=slug)

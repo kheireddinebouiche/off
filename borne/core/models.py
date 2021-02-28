@@ -97,7 +97,7 @@ class Menu(models.Model):
         return self.designation
 
     def go_next_step(self):
-        return reverse("core:commande", kwargs={
+        return reverse("core:view_menu", kwargs={
             'slug': self.slug
         })
     
@@ -133,6 +133,8 @@ class Item(models.Model):
     image = models.ImageField(null=True, blank=True)
 
     type_item = models.CharField(max_length=3, choices=ITEM_TYPE, null=True, blank=True)
+
+    is_formule= models.BooleanField(default=False)
 
     slug = models.SlugField(max_length=100, null=True, blank=True)
 

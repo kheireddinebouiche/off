@@ -175,12 +175,14 @@
       <li class="col-6 col-md-4 col-lg-2">
           <div class="cnt-block equal-hight" style="height: 250px;">
 
-            {% if i.item.type_item == 'boi' %}
+            {% if i.item.type_item == 'gar' %}
             <a href="{{i.item.remove_from_cart}}" class="btn btn-danger float-right" style="color: #fff;">X</a>
             {% endif %}
             <figure><img src="{{ i.item.image.url }}" class="img-responsive" alt=""></figure>
             <h6><a href="#">{{i.item.designation}} </a></h6>
-           <h3> <div class="minus"><a href="{{i.item.remove_single_item}}">-</a></div>    &nbsp&nbsp&nbsp  {{i.quantity}}</h3> 
+            <h3>
+            {% if i.item.type_item == 'gar' %}
+            <div class="minus"><a href="{{i.item.remove_single_item}}">-</a></div> {% endif %}   &nbsp&nbsp&nbsp  {{i.quantity}}</h3> 
             
           </div>
         </li>    
