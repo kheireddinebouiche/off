@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from django.urls import path, include
-from .views import home, commande, add_to_cart,sauce, roll_back, com,side, remove_from_cart,remove_single_item_from_cart, supplement, boisson, pate, AnnulerCommande, VoirCommande, garniture, ConfirmerCommande, sandwich, view_menu, formule
+from .views import home, commande, add_to_cart,sauce, roll_back, com,side, remove_from_cart,remove_single_item_from_cart, supplement, boisson, pate, AnnulerCommande, VoirCommande, garniture, ConfirmerCommande, sandwich, view_menu, formule, ModeConsommation, set_mode_conso
 from django.conf.urls.static import static
 
 
@@ -37,6 +37,8 @@ urlpatterns = [
 
     #url de traitement de la commande.
     path('AnnulerCommande/', AnnulerCommande, name="AnnulerCommande"),
+    path('ModeConsommation/', ModeConsommation, name="ModeConsommation"),
+    path('set_mode_conso/<slug>/', set_mode_conso, name="set_mode_conso"),
     path('VoirCommande/',VoirCommande,name="VoirCommande"),
     path('ConfirmerCommande/',ConfirmerCommande, name="ConfirmerCommande"),
     

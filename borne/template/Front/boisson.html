@@ -191,8 +191,16 @@
 
     </ul>
 
-    <a class="btn btn-primary float-right " href="{% url 'core:ConfirmerCommande' %}">Valider ma commande </a>
-    <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Anuler ma commande </a>
+    {% if order_qs.ref_menu == 'for' %}
+      {% for i in order_qs.items.all %}
+          {% if i.item.type_item == 'boi'  %}
+          <a class="btn btn-primary float-right " href="{% url 'core:ModeConsommation' %}">Valider ma commande </a>
+          {% endif %}
+      {% endfor %}  
+    {% else %}   
+      <a class="btn btn-primary float-right " href="{% url 'core:ModeConsommation' %}">Valider ma commande </a>
+    {% endif %}  
+      <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Annuler ma commande </a>
     
             
 

@@ -18,6 +18,7 @@ ITEM_TYPE = {
     ('gar', 'garniture'),
     ('san','Sandwich'),
     ('des','Dessert'),
+    ('for', 'Formule'),
 }
 
 ETAT_COM = {
@@ -26,6 +27,11 @@ ETAT_COM = {
     ('arc','Archivé'),
     ('enc', 'En cours'),
    
+}
+
+TYPE_CONSO= {
+    ('emp', 'Emporter'),
+    ('srp', 'Sur place'),
 }
 
 MODE_CONSOMMATION = {
@@ -234,6 +240,7 @@ class Order(models.Model):
     etat = models.CharField(max_length=3, null=True, blank=True, choices=ETAT_COM)
     montant = models.FloatField(default=0)
     mode_consommation = models.CharField(max_length=100, null=True, blank=True, choices=MODE_CONSOMMATION)
+    ref_menu = models.CharField(max_length=3, choices=ITEM_TYPE, null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -244,3 +251,23 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.det_tot()
         return total
+
+
+class ModeConso(models.Model):
+    type_conso = models.CharField(max_length=3, choices=TYPE_CONSO, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.type_conso)
+        super(ModeConso, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.type_conso
+
+    def get_url(self):
+        return reverse("core:set_mode_conso", kwargs={
+            'slug': self.slug
+        })
+
+

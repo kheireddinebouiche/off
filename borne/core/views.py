@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Menu, Item, OrderItem, Order 
+from .models import Menu, Item, OrderItem, Order, ModeConso 
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -37,22 +37,25 @@ def view_menu(request, slug):
 
     menu = get_object_or_404(Menu, slug=slug)
 
-    if (menu.designation == 'SANDWICH'):
+    if (menu.designation == 'Sandwich'):
         return redirect('core:sandwich')
 
     else:
 
         if (menu.designation == 'FORMULE'):
             return redirect('core:formule')
-   
         else:
+            if(menu.designation == 'BOISSONS'):
+                return redirect('core:boisson')
+   
+            else:
 
-            return redirect('core:home')
+                return redirect('core:home')
 
 @login_required
 def formule(request):
 
-    item = Item.objects.filter(user=request.user, is_formule=True)
+    item = Item.objects.filter(user=request.user, type_item='for')
     
     try:
         order = Order.objects.get(user=request.user, ordered=False, etat='enc')
@@ -152,12 +155,15 @@ def sauce(request):
 @login_required
 def garniture(request):
     garniture = Item.objects.filter(user=request.user, type_item='gar')
+    order_qs = Order.objects.get(user=request.user, ordered=False, etat='enc')
+  
 
     try:
         order_qs = Order.objects.get(user=request.user, ordered=False, etat='enc')
         context = {
             'garniture' : garniture,
             'order_qs' : order_qs,
+
         }
         return render(request, 'Front/garniture.html', context)
 
@@ -167,16 +173,24 @@ def garniture(request):
 
 
 
-
 @login_required
 def boisson(request):
     boisson = Item.objects.filter(user=request.user, type_item="boi")
-    order_qs = Order.objects.get(user=request.user, ordered=False, etat='enc')
-    context = {
-        'boisson' : boisson,
-        'order_qs' : order_qs,
-    }
-    return render(request, "Front/boisson.html", context)
+    try:
+        order_qs = Order.objects.get(user=request.user, ordered=False, etat='enc')
+        context = {
+            'boisson' : boisson,
+            'order_qs' : order_qs,
+        }
+        return render(request, "Front/boisson.html", context)
+
+    except ObjectDoesNotExist:
+
+        context = {
+            'boisson' : boisson,
+        }
+
+        return render(request, "Front/boisson.html", context)
 
 
 
@@ -220,7 +234,9 @@ def desserts(request):
     
 @login_required
 def add_to_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)       
+    item = get_object_or_404(Item, slug=slug)
+    menu = Menu.objects.filter(designation=item.menu) 
+
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
@@ -236,27 +252,36 @@ def add_to_cart(request, slug):
 
         if order.items.filter(item__slug=item.slug).exists():
 
-            order_item.quantity += 1
-            order_item.save()
-            
 
-            if (item.type_item=="sau"):
-                return redirect("core:sauce")
+            if(item.type_item == 'for'):
+
+                return redirect('core:formule')
 
             else:
-                if (item.type_item=='boi'):
-                    return redirect("core:boisson")
+
+                order_item.quantity += 1
+                order_item.save()
+                    
+
+                if (item.type_item=="sau"):
+                    return redirect("core:sauce")
 
                 else:
-                    if (item.type_item=="pat"):
-                        return redirect("core:pate")
+                    if (item.type_item=='boi'):
+                        return redirect("core:boisson")
+
                     else:
-                        if (item.type_item=="gar"):
-                            return redirect("core:garniture")
-
+                        if (item.type_item=="pat"):
+                            return redirect("core:pate")
                         else:
-                            return redirect("core:sandwich")  
+                            if (item.type_item=="gar"):
+                                return redirect("core:garniture")
+                            else:
+                                if (item.type_item =='for'):
+                                    return redirect('core:formule')
 
+                                else:
+                                    return redirect("core:sandwich")  
 
         else:
 
@@ -281,18 +306,32 @@ def add_to_cart(request, slug):
 
                         else:
 
-                            order.items.add(order_item)
-                            return redirect("core:sandwich")
+                            if (item.type_item =='for'):
+                                order.items.add(order_item)
+                                return redirect('core:formule')
+
+                            else:
+
+                                order.items.add(order_item)
+                                return redirect("core:sandwich")
             
     else:
 
         ordered_date = timezone.now()
-        order = Order.objects.create(user=request.user, ordered_date=ordered_date, etat='enc')
+        order = Order.objects.create(user=request.user, ordered_date=ordered_date, etat='enc', ref_menu=item.type_item)
         order.items.add(order_item)
+
         if (item.type_item == 'san'):
             return redirect("core:sandwich")
         else:
-            return redirect('core:home')
+            if (item.type_item == 'for'):
+                return redirect('core:formule')
+            else:
+
+                if(item.type_item =='boi'):
+                    return redirect('core:boisson')
+                else:
+                    return redirect('core:home')
 
 
 
@@ -305,7 +344,7 @@ def remove_from_cart(request, slug):
         ordered=False,
         etat='enc'
     )
-    menu = Menu.objects.get(designation = item.menu)
+    #menu = Menu.objects.get(designation = item.menu)
     if order_qs.exists():
         order = order_qs[0]
         if order.items.filter(item__slug=item.slug).exists():
@@ -313,13 +352,15 @@ def remove_from_cart(request, slug):
             order.items.remove(order_item)
             order_item.delete()
 
-            if (item.type_item=="sau" or item.menu.designation=="Sandwich"):
+            if (item.type_item=="sau"):
                 return redirect("core:sauce")
 
             else:
 
                 if (item.type_item=='boi'):
-                    return redirect("core:boisson") 
+                    return redirect("core:boisson")
+
+                else: 
 
                     if (item.type_item=='gar'):
                         return redirect('core:garniture')
@@ -455,7 +496,25 @@ def roll_back(request):
 
 @login_required
 def ModeConsommation(request):
-    pass
+    conso  = ModeConso.objects.all()
+
+    context = {
+        'conso' : conso,
+    }
+    return render(request, 'Front/consomation.html', context)
+
+
+@login_required
+def set_mode_conso(request, slug):
+
+    mode = get_object_or_404(ModeConso,slug)
+    order = Order.objects.filter(user=user.request, ordered=False, etat= enc)
+
+    order.mode_consommation = mode
+    order.save()
+
+    return redirect('core:ConfirmerCommande')
+
 
 
 @login_required
