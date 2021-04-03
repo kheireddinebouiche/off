@@ -1,165 +1,89 @@
+<!DOCTYPE html> 
+<html lang="en"> 
 
-{% load static %}
-<html>
-  <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<head> 
+	<!-- Required meta tags -->
+	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, 
+		initial-scale=1, shrink-to-fit=no"> 
 
-    <style type="text/css">
-      .row.heading h2 {
-        color: rgb(17, 16, 16);
-        font-size: 52.52px;
-        line-height: 95px;
-        font-weight: 400;
-        text-align: center;
-        margin: 0 0 40px;
-        padding-bottom: 20px;
-        text-transform: uppercase;
-    }
-    ul{
-      margin:0;
-      padding:0;
-      list-style:none;
-    }
-    .heading.heading-icon {
-        display: block;
-    }
-    .padding-lg {
-      display: block;
-      padding-top: 50px;
-      padding-bottom: 50px;
-    }
-    .practice-area.padding-lg {
-        padding-bottom: 55px;
-        padding-top: 55px;
-    }
-    .practice-area .inner{ 
-         border:0px; 
-       text-align:center; 
-       margin-bottom:28px; 
-      
-    }
-    .our-webcoderskull .cnt-block:hover {
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-        border: 0;
-    }
-    .practice-area .inner h3{ 
-        color:#3c3c3c; 
-      font-size:24px; 
-      font-weight:500;
-      font-family: 'Poppins', sans-serif;
-      padding: 10px 0;
-    }
-    .practice-area .inner p{ 
-        font-size:14px; 
-      line-height:22px; 
-      font-weight:400;
-    }
-    .practice-area .inner img{
-      display:inline-block;
-    }
-    
-  
-    .our-webcoderskull .cnt-block{ 
-       float:left; 
-       width:100%; 
-       background:#fff; 
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href= 
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity= 
+"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous"> 
+
+	<link rel="stylesheet" href= 
+"https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+		integrity= 
+"sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+		crossorigin="anonymous"> 
+
+	<title> 
+		Borne restos : mode de consomation  
+	</title> 
+
+  <style type="text/css">
+
+   .container {
+     
+     margin-top : 200px;
+     width : 50rem;
+   }
+
+   h3 {
+     margin-top : 100px;
+     margin-bottom : -100px;
+   }
+
    
-       text-align:center; 
-       border:0px solid #d5d5d5;
-       margin: 0 0 20px;
-    }
-    .our-webcoderskull .cnt-block figure{
-       width:160px; 
-       height:120px; 
-       border-radius:100%; 
-       display:inline-block;
-       margin-bottom: 15px;
-    }
-    .our-webcoderskull .cnt-block img{ 
-       width:160px; 
-       height:120px; 
-       border-radius:100%; 
-    }
-    .our-webcoderskull .cnt-block h3{ 
-       color:#2a2a2a; 
-       font-size:20px; 
-       font-weight:500; 
-       padding:6px 0;
-       text-transform:uppercase;
-    }
-    .our-webcoderskull .cnt-block h3 a{
-      text-decoration:none;
-      color:#2a2a2a;
-    }
-    .our-webcoderskull .cnt-block h3 a:hover{
-      color:#337ab7;
-    }
-    .our-webcoderskull .cnt-block p{ 
-       color:#2a2a2a; 
-       font-size:13px; 
-       line-height:20px; 
-       font-weight:400;
-    }
-    .our-webcoderskull .cnt-block .follow-us{
-      margin:20px 0 0;
-    }
-    .our-webcoderskull .cnt-block .follow-us li{ 
-        display:inline-block; 
-      width:auto; 
-      margin:0 5px;
-    }
-    .our-webcoderskull .cnt-block .follow-us li .fa{ 
-       font-size:24px; 
-       color:#767676;
-    }
-    .our-webcoderskull .cnt-block .follow-us li .fa:hover{ 
-       color:#025a8e;
-    }
-    .minus {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle;
-    color:rgb(253, 253, 253);
-    width: 30px;
-    height: 30px;
-    font: 30px/1 Arial,sans-serif;
-    text-align: center;
-    border-radius: 50%;
-    background-color: #cadeeb;
-  
-    }
+   
+  </style>
+</head> 
+
+<body> 
+
+<center><h3>Choisissez votre mode de consomation</3></center>
+	<div class="container" > 
+		<div class="row"> 
     
-    </style>
-  </head>
-  <body>   
-<section class="our-webcoderskull padding-lg">
-  <div class="container">
-    <div class="row heading heading-icon">
-       <center><h4>Selectionnez votre préférence de consomation</h4></center> 
-    </div>
-    <ul class="row">
-      
+
     {% for i in conso %}
+			<div class="col-lg-6 mb-4"> 
+				<div class="card border-0"> 
+					<a href="{{i.get_url}}"><img class="card-img-top" src="{{i.image.url}}" alt=""> </a>
 
-    <a href="{{i.get_url}}">
-      <li class="col-6 col-md-4 col-lg-2">
+					<div class="card-body"> 
+						 
+				</div> 
+			</div>	
+		</div> 
+    {% endfor %}
+	</div> 
+	</div>
 
-          <div class="cnt-block equal-hight" style="height: 250px;">
-            <figure><img src="{{i.image.url}}" class="img-responsive" alt=""></figure>
-            <h6>{{i.get_type_conso_display}}</h6>
-          </div>
-        </li>
-      </a>
-      {% endfor %}    
-    </li>
-    </ul>
-  </div>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			integrity= 
+"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"> 
+	</script> 
 
-</section>
-</body>
-</html>
+	<script src= 
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity= 
+"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+			crossorigin="anonymous"> 
+	</script> 
+
+	<script src= 
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity= 
+"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+			crossorigin="anonymous"> 
+	</script> 
+</body> 
+
+</html> 

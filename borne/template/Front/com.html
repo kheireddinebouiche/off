@@ -185,6 +185,7 @@
 
     </ul>
     {% endif %}
+    
                 {% if menu.garniture %}
                 
               
@@ -198,7 +199,12 @@
                 <a class="btn btn-primary float-right "  href="{% url 'core:ConfirmerCommande' %}">Valider ma commande</a>
                 <a class="btn btn-warning float-right mr-3"  href="{% url 'core:AnnulerCommande' %}">Annuler ma commande</a>
 
+                {% elif menu.designation =='Sandwich' %}
 
+                <a class="btn btn-primary float-right "  href="{% url 'core:pate' %}">Choisir la pate</a>
+                <a class="btn btn-warning float-right mr-3"  href="{% url 'core:AnnulerCommande' %}">Annuler ma commande</a>
+
+                
                 {% else %}
 
                 <a class="btn btn-primary float-right "  href="#">Choisir les sauces</a>

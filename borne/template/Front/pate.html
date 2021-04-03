@@ -140,17 +140,27 @@
 <section class="our-webcoderskull padding-lg">
   <div class="container">
     <div class="row heading heading-icon">
+      {% for message in messages %}
+      <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message }}
+        </div>
+      </div>
+      {% endfor %}
        <center><h4>Choix du pain</h4></center> 
     </div>
     <ul class="row">
 
         {% for i in pate %}
 
-      <a href="{{i.get_add_to_cart_url}}">
+      <a href="{{i.get_add_pate}}">
       <li class="col-6 col-md-4 col-lg-2">
           <div class="cnt-block equal-hight" style="height: 250px;">
             <figure><img src="{{ i.image.url }}" class="img-responsive" alt=""></figure>
-            <h6><a href="{{i.get_add_to_cart_url}}">{{i.designation}}</a></h6>
+            <h6><a href="{{i.get_add_pate}}">{{i.designation}}</a></h6>
             <h3>{{i.prix}} €</h3>
             
           </div>
@@ -168,7 +178,6 @@
         <h4>Ma commande</h4>
     </div>
 
-   
     <ul class="row">
         {% for i in order_qs.items.all %}
      
@@ -187,11 +196,31 @@
         {% endfor %}
 
     </ul>
-
-    <a class="btn btn-primary float-right " href="{% url 'core:sauce' %}">Choisir les sauces </a>
     
-    <a class="btn btn-primary float-right mr-3 " href="{% url 'core:ConfirmerCommande' %}">Valider ma commande</a>
-    <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Anuler ma commande </a>
+
+    {% if menu.sauce %}
+      
+    
+      {% for i in order_qs.items.all %}
+
+          {% if i.item.type_item == 'pat' %}
+
+            <a class="btn btn-primary float-right" href="{% url 'core:sauce' %}">Choisir les sauces </a> 
+            <a class="btn btn-primary float-right mr-3" href="{% url 'core:ModeConsommation' %}">Valider ma commande</a>
+            
+          {% endif %}
+
+      {% endfor %}
+
+          <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Annuler ma commande </a>
+
+    {% else %}
+
+          <a class="btn btn-primary float-right mr-3 " href="{% url 'core:boisson' %}">Choisir une boisson</a>
+          <a class="btn btn-primary float-right mr-3 " href="{% url 'core:ModeConsommation' %}">Valider ma commande</a>
+          <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Anuler ma commande </a>
+
+    {% endif %}
     
             
 

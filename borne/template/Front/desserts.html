@@ -140,11 +140,11 @@
 <section class="our-webcoderskull padding-lg">
   <div class="container">
     <div class="row heading heading-icon">
-        <center><h4>Choix d'un boisson</h4></center>
+        <center><h4>Choix d'un dessert</h4></center>
     </div>
     <ul class="row">
 
-        {% for i in boisson %}
+        {% for i in desserts %}
 
       <a href="{{i.get_add_to_cart_url}}">
       <li class="col-6 col-md-4 col-lg-2">
@@ -175,7 +175,7 @@
       <li class="col-6 col-md-4 col-lg-2">
           <div class="cnt-block equal-hight" style="height: 250px;">
 
-            {% if i.item.type_item == 'boi' %}
+            {% if i.item.type_item == 'des' %}
             <a href="{{i.item.remove_from_cart}}" class="btn btn-danger float-right" style="color: #fff;">X</a>
             {% endif %}
             <figure><img src="{{ i.item.image.url }}" class="img-responsive" alt=""></figure>
@@ -188,10 +188,9 @@
 
     </ul>
 
-    <a class="btn btn-primary float-right " href="{% url 'core:ConfirmerCommande' %}">Valider ma commande </a>
+    <a class="btn btn-primary float-right " href="{% url 'core:ModeConsommation' %}">Valider ma commande </a>
     <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Anuler ma commande </a>
-    
-            
+           
 
   </div>
 </section>

@@ -25,6 +25,8 @@ ETAT_COM = {
 
     ('ann','Annulé'),
     ('arc','Archivé'),
+    ('fin', 'Finaliser'),
+    ('val', 'Validé'),
     ('enc', 'En cours'),
    
 }
@@ -102,6 +104,11 @@ class Menu(models.Model):
     def __str__(self):
         return self.designation
 
+    def get_url(self):
+        return reverse('core:get_url', kwargs={
+            'slug' : self.slug
+        })
+
     def go_next_step(self):
         return reverse("core:view_menu", kwargs={
             'slug': self.slug
@@ -160,6 +167,26 @@ class Item(models.Model):
     def remove_from_cart(self):
         return reverse("core:remove_from_cart", kwargs={
             'slug': self.slug
+        })
+
+    def get_add_to_pan(self):
+        return reverse('core:add_to_pan', kwargs={
+            'slug' : self.slug
+        })
+
+    def get_add_garniture(self):
+        return reverse('core:add_garniture', kwargs={
+            'slug' : self.slug
+        })
+
+    def get_add_pate(self):
+        return reverse('core:add_pate', kwargs={
+            'slug' : self.slug
+        })
+
+    def get_add_sauce(self):
+        return reverse('core:add_sauce', kwargs={
+            'slug' : self.slug
         })
 
     def remove_single_item(self):
@@ -241,6 +268,8 @@ class Order(models.Model):
     montant = models.FloatField(default=0)
     mode_consommation = models.CharField(max_length=100, null=True, blank=True, choices=MODE_CONSOMMATION)
     ref_menu = models.CharField(max_length=3, choices=ITEM_TYPE, null=True, blank=True)
+
+    step = models.CharField(max_length=3000, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

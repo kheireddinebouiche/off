@@ -140,15 +140,16 @@
   <body>   
 <section class="our-webcoderskull padding-lg">
   <div class="container">
+    
     <div class="row heading heading-icon">
         <center><h3>Note menu</h3></center>
     </div>
     <ul class="row">
         {% for m in menu %}
-      <a href="{{m.go_next_step}}">
+      <a href="{{m.get_url}}">
       <li class="col-6 col-md-4 col-lg-3 mt-3">
           <div class="cnt-block equal-hight" style="height: 200px; width: 250px;">
-            <figure><a href="{{m.go_next_step}}"><img src="{{ m.image.url }}" class="img-responsive" alt=""></a></figure>
+            <figure><a href="{{m.get_url}}"><img src="{{ m.image.url }}" class="img-responsive" alt=""></a></figure>
             <h6>{{m.designation}}</h6>           
           </div>
         </li>

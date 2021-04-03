@@ -5,7 +5,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
+    
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -140,7 +140,7 @@
 <section class="our-webcoderskull padding-lg">
   <div class="container">
     <div class="row heading heading-icon">
-       <center><h4>Notre menu</h4></center> 
+       <center><h4>Nos Sandwichs</h4></center> 
     </div>
     <ul class="row">
 
@@ -187,10 +187,16 @@
     {% endif %}
                 
                 
-              
-                 <a class="btn btn-primary float-right"  href="{% url 'core:garniture' %}">Choisir la garniture </a>
-                 <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Annuler ma commande </a>
-                        
+          {% if menu.pate %}
+          <a class="btn btn-primary float-right"  href="{% url 'core:pate' %}">Choisir la pate </a>
+          <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Annuler ma commande </a>
+
+          {% else %}
+          
+          <a class="btn btn-primary float-right"  href="{% url 'core:garniture' %}">Choisir la garniture </a>
+          <a class="btn btn-warning float-right mr-3" href="{% url 'core:AnnulerCommande' %}">Annuler ma commande </a>
+
+          {% endif %}
 
                 
 
