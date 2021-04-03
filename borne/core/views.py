@@ -820,8 +820,8 @@ def VoirCommande(request):
 #Message de remerciement
 @login_required
 def MessageRem(request):
-    return render(request,'remerciement.html')
-
+    return render(request,'Front/remerciement.html')
+                        
 @login_required
 def ConfirmerCommande(request):
     
